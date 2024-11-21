@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import {
   LogOut,
   User,
+  Search
 } from 'lucide-vue-next';
 import {
   DropdownMenu,
@@ -18,8 +19,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 </script>
 <template>
   <nav class="h-16 border-b bg-muted/40 flex justify-between items-center px-6">
-    <form class="w-full max-w-96">
-      <Input type="text" placeholder="Search..." />
+    <form class="w-full max-w-96 relative">
+      <Search class="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <Input type="text" placeholder="Search..." class="pl-10" />
     </form>
     <DropdownMenu>
       <DropdownMenuTrigger>
