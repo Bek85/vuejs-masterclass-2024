@@ -20,7 +20,6 @@ const projects = ref<Tables<'projects'>[] | null>([]);
 </script>
 <template>
   <h1>Projects Page</h1>
-  <br />
   <ul>
     <li v-for="project in projects" :key="project.id"> {{ project.name }} </li>
   </ul>

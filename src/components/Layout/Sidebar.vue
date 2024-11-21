@@ -30,7 +30,7 @@ const profileLinks = [
         <SidebarLinks :links="links" />
       </div>
       <div class="border-y text-center bg-background py-3">
-        <SidebarLinks :links="profileLinks" /> ]" />
+        <SidebarLinks :links="profileLinks" />
       </div>
     </nav>
   </aside>
