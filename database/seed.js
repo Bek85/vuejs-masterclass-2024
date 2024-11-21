@@ -1,6 +1,9 @@
-import { faker_EN_US as faker } from '@faker-js/faker';
+/* eslint-env node */
 
-const personName = faker.person.fullName();
-const personBio = faker.person.bio();
+import { fakerEN_US as faker } from '@faker-js/faker';
 
-console.log(personName, personBio);
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+console.log(supabase);
