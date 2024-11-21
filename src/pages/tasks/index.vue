@@ -4,63 +4,6 @@ import { ref, h } from 'vue';
 import type { Tables } from '@root/database/types/database.types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import DataTable from '@/components/ui/data-table/DataTable.vue';
-interface Payment {
-  id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
-  email: string
-}
-
-const payments: Payment[] = [
-  {
-    id: '728ed52f',
-    amount: 100,
-    status: 'pending',
-    email: 'm@example.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-
-]
-
-const columns: ColumnDef<Payment>[] = [
-  // ID Column
-  {
-    accessorKey: 'id',
-    header: () => h('div', { class: 'text-left' }, 'ID'),
-  },
-
-  // Email Column
-  {
-    accessorKey: 'email',
-    header: () => h('div', { class: 'text-left' }, 'Email'),
-  },
-
-  // Status Column
-  {
-    accessorKey: 'status',
-    header: () => h('div', { class: 'text-left' }, 'Status'),
-  },
-  // Amount Column
-  {
-    accessorKey: 'amount',
-    header: () => h('div', { class: 'text-left' }, 'Amount'),
-    cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue('amount'))
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-
-      return h('div', { class: 'text-left font-medium' }, formatted)
-    },
-  }
-]
-
 
 const tasks = ref<Tables<'tasks'>[] | null>([]);
 
@@ -75,9 +18,58 @@ const tasks = ref<Tables<'tasks'>[] | null>([]);
 
 })();
 
+const columns: ColumnDef<Tables<'tasks'>[]>[] = [
+  // ID Column
+  {
+    accessorKey: 'id',
+    header: () => h('div', { class: 'text-left' }, 'ID'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('id')),
+  },
+
+  // Name Column
+  {
+    accessorKey: 'name',
+    header: () => h('div', { class: 'text-left' }, 'Name'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('name')),
+  },
+
+  // Status Column
+  {
+    accessorKey: 'status',
+    header: () => h('div', { class: 'text-left' }, 'Status'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('status')),
+  },
+  // Description Column
+  {
+    accessorKey: 'description',
+    header: () => h('div', { class: 'text-left' }, 'Description'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('description')),
+  },
+  // Due Date Column
+  {
+    accessorKey: 'due_date',
+    header: () => h('div', { class: 'text-left' }, 'Due Date'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('due_date')),
+  },
+  // Project ID Column
+  {
+    accessorKey: 'project_id',
+    header: () => h('div', { class: 'text-left' }, 'Project ID'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('project_id')),
+  },
+  // Collaborators Column
+  {
+    accessorKey: 'collaborators',
+    header: () => h('div', { class: 'text-left' }, 'Collaborators'),
+    cell: ({ row }) => h('div', { class: 'text-left' }, JSON.stringify(row.getValue('collaborators'))),
+  }
+]
+
+
+
 
 </script>
 <template>
-  <DataTable :columns="columns" :data="payments" />
+  <DataTable v-if="tasks" :columns="columns" :data="tasks" />
 </template>
 <style scoped></style>
