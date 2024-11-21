@@ -3,28 +3,29 @@ import { supabase } from '@/lib/supabaseClient';
 import { ref } from 'vue';
 import type { Tables } from '@root/database/types/database.types';
 
-const projects = ref<Tables<'projects'>[] | null>([]);
+
+const tasks = ref<Tables<'tasks'>[] | null>([]);
 
 // this needs to be anonymous function
 (async () => {
 
-  const { data, error } = await supabase.from('projects').select('*');
+  const { data, error } = await supabase.from('tasks').select('*');
 
   if (error) console.log(error);
 
-  projects.value = data;
+  tasks.value = data;
 
 })();
 
 
 </script>
 <template>
-  <h1>Projects Page</h1>
+  <h1>Tasks Page</h1>
   <RouterLink to="/">Home</RouterLink>
   <br />
-  <RouterLink :to="{ name: '/projects/[id]', params: { id: '1' } }">Go to Project 1</RouterLink>
+  <RouterLink :to="{ name: '/tasks/[id]', params: { id: '1' } }">Go to Task 1</RouterLink>
   <ul>
-    <li v-for="project in projects" :key="project.id"> {{ project.name }} </li>
+    <li v-for="task in tasks" :key="task.id"> {{ task.name }} </li>
   </ul>
 </template>
 <style scoped></style>
