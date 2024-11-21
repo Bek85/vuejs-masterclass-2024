@@ -1,6 +1,6 @@
 {
-  "name": "vuejs-masterclass-2024",
-  "version": "0.0.0",
+  "name": "pulse",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {

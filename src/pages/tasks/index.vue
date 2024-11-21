@@ -4,7 +4,7 @@ import { ref, h } from 'vue';
 import type { Tables } from '@root/database/types/database.types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import DataTable from '@/components/ui/data-table/DataTable.vue';
-
+import { RouterLink } from 'vue-router';
 const tasks = ref<Tables<'tasks'>[] | null>(null)
   ; (async () => {
     const { data, error } = await supabase.from('tasks').select()
@@ -18,9 +18,7 @@ const columns: ColumnDef<Tables<'tasks'>>[] = [
   {
     accessorKey: 'name',
     header: () => h('div', { class: 'text-left' }, 'Name'),
-    cell: ({ row }) => {
-      return h('div', { class: 'text-left font-medium' }, row.getValue('name'))
-    }
+    cell: ({ row }) => h(RouterLink, { to: `/tasks/${row.original.id}`, class: 'text-left font-medium hover:bg-muted block w-full' }, () => row.getValue('name')),
   },
   {
     accessorKey: 'status',

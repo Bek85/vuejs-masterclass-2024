@@ -5,7 +5,7 @@ import type { Tables } from '@root/database/types/database.types';
 import { h } from 'vue';
 import type { ColumnDef } from '@tanstack/vue-table';
 import DataTable from '@/components/ui/data-table/DataTable.vue';
-
+import { RouterLink } from 'vue-router';
 const projects = ref<Tables<'projects'>[] | null>(null);
 
 // this needs to be anonymous function
@@ -29,7 +29,7 @@ const columns: ColumnDef<Tables<'projects'>>[] = [
   {
     accessorKey: 'name',
     header: () => h('div', { class: 'text-left' }, 'Name'),
-    cell: ({ row }) => h('div', { class: 'text-left' }, row.getValue('name')),
+    cell: ({ row }) => h(RouterLink, { to: `/projects/${row.original.slug}`, class: 'text-left font-medium hover:bg-muted block w-full' }, () => row.getValue('name')),
   },
   {
     accessorKey: 'status',

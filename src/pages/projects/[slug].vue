@@ -4,14 +4,17 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 // Define the type for route.params
-interface RouteParamsWithId {
-  id: string;
+interface RouteParamsWithSlug {
+  slug: string;
 }
 
 // Cast route.params to the defined type
-const params = route.params as RouteParamsWithId;
+const params = route.params as RouteParamsWithSlug;
+
 </script>
 <template>
-  <h1>Single Task {{ params.id }}</h1>
+  <h1>Single Project {{ params.slug }}</h1>
+  <br />
+  <RouterLink to="/projects">Back to Projects</RouterLink>
 </template>
 <style scoped></style>
