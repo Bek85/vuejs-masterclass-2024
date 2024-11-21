@@ -20,8 +20,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 <template>
   <nav class="h-16 border-b bg-muted/40 flex justify-between items-center px-6">
     <form class="w-full max-w-96 relative">
-      <Search class="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      <Input type="text" placeholder="Search..." class="pl-10" />
+      <iconify-icon icon="lucide:search" class="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <!-- <Search class="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" /> -->
+      <Input type="text" placeholder="Search..." class="pl-8" />
     </form>
     <DropdownMenu>
       <DropdownMenuTrigger>
