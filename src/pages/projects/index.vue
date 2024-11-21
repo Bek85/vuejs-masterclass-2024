@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { supabase } from '@/lib/supabaseClient';
 import { ref } from 'vue';
+import type { Tables } from '../../../database/types/database.types';
 
-const projects = ref<any[]>([]);
+const projects = ref<Tables<'projects'>[] | null>([]);
 
 // this needs to be anonymous function
 (async () => {
@@ -11,7 +12,7 @@ const projects = ref<any[]>([]);
 
   if (error) console.log(error);
 
-  projects.value = data ?? [];
+  projects.value = data;
 
 })();
 
@@ -22,9 +23,8 @@ const projects = ref<any[]>([]);
   <RouterLink to="/">Home</RouterLink>
   <br />
   <RouterLink :to="{ name: '/projects/[id]', params: { id: '1' } }">Go to Project 1</RouterLink>
-  <div v-for="project in projects" :key="project.id">
-    <h2>{{ project.name }}</h2>
-    <p>{{ project.status }}</p>
-  </div>
+  <ul>
+    <li v-for="project in projects" :key="project.id"> {{ project.name }} </li>
+  </ul>
 </template>
 <style scoped></style>
