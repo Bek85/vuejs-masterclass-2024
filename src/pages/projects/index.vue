@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { supabase } from '@/lib/supabaseClient';
+import { ref } from 'vue';
+
+const projects = ref<any[]>([]);
 
 // this needs to be anonymous function
 (async () => {
-  try {
-    const { data: projects, error } = await supabase.from('projects').select('*');
-    console.log(projects);
-  } catch (error) {
-    console.error(error);
-  }
+
+  const { data, error } = await supabase.from('projects').select('*');
+
+  if (error) console.log(error);
+
+  projects.value = data ?? [];
+
 })();
 
 
@@ -18,5 +22,9 @@ import { supabase } from '@/lib/supabaseClient';
   <RouterLink to="/">Home</RouterLink>
   <br />
   <RouterLink :to="{ name: '/projects/[id]', params: { id: '1' } }">Go to Project 1</RouterLink>
+  <div v-for="project in projects" :key="project.id">
+    <h2>{{ project.name }}</h2>
+    <p>{{ project.status }}</p>
+  </div>
 </template>
 <style scoped></style>
