@@ -6,16 +6,23 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-const seedProjects = async () => {
+const seedProjects = async (numEntries = 10) => {
   // need to insert data to supabase database
-  const name = faker.lorem.words(3);
 
-  await supabase.from('projects').insert({
-    name,
-    slug: name.toLowerCase().replace(/ /g, '-'),
-    status: faker.helpers.arrayElement(['in-progress', 'completed']),
-    collaborators: faker.helpers.arrayElements([1, 2, 3]),
-  });
+  const projects = [];
+
+  for (let i = 0; i < numEntries; i++) {
+    const name = faker.lorem.words(3);
+
+    projects.push({
+      name,
+      slug: name.toLowerCase().replace(/ /g, '-'),
+      status: faker.helpers.arrayElement(['in-progress', 'completed']),
+      collaborators: faker.helpers.arrayElements([1, 2, 3]),
+    });
+  }
+
+  await supabase.from('projects').insert(projects);
 };
 
-await seedProjects();
+await seedProjects(20);
