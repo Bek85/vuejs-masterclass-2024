@@ -15,7 +15,8 @@ toast({
   title: 'Hello',
   description: 'This is a toast',
   variant: 'info',
-  position: 'bottom-left',
+  position: 'top-right',
+
 });
 
 const projects = ref<Tables<'projects'>[] | null>(null);
@@ -58,6 +59,6 @@ const columns: ColumnDef<Tables<'projects'>>[] = [
 </script>
 <template>
   <DataTable v-if="projects" :columns="columns" :data="projects" />
-  <Toaster position="bottom-left" />
+  <Toaster position="top-right" />
 </template>
 <style scoped></style>
