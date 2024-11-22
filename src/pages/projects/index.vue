@@ -6,6 +6,18 @@ import { h } from 'vue';
 import type { ColumnDef } from '@tanstack/vue-table';
 import DataTable from '@/components/ui/data-table/DataTable.vue';
 import { RouterLink } from 'vue-router';
+import { useToast } from '@/components/ui/toast';
+import { Toaster } from '@/components/ui/toast';
+
+const { toast } = useToast();
+
+toast({
+  title: 'Hello',
+  description: 'This is a toast',
+  variant: 'info',
+  position: 'bottom-left',
+});
+
 const projects = ref<Tables<'projects'>[] | null>(null);
 
 // this needs to be anonymous function
@@ -46,5 +58,6 @@ const columns: ColumnDef<Tables<'projects'>>[] = [
 </script>
 <template>
   <DataTable v-if="projects" :columns="columns" :data="projects" />
+  <Toaster position="bottom-left" />
 </template>
 <style scoped></style>
