@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import SidebarLinks from './SidebarLinks.vue';
-
 
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
