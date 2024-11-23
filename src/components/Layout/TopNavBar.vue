@@ -1,21 +1,10 @@
 <script setup lang="ts">
-import { Input } from '@/components/ui/input';
 import {
   LogOut,
   User,
   Search
 } from 'lucide-vue-next';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 </script>
 <template>
   <nav class="h-16 border-b bg-muted/40 flex justify-between items-center px-6">

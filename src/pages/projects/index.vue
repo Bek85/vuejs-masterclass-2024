@@ -2,10 +2,9 @@
 import { supabase } from '@/lib/supabaseClient';
 import type { Tables } from '@root/database/types/database.types';
 import type { ColumnDef } from '@tanstack/vue-table';
-import DataTable from '@/components/ui/data-table/DataTable.vue';
 import { RouterLink } from 'vue-router';
 import { useToast } from '@/components/ui/toast';
-import { Toaster } from '@/components/ui/toast';
+
 
 const { toast } = useToast();
 

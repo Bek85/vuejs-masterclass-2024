@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url';
 import VueRouter from 'unplugin-vue-router/vite';
+import Components from 'unplugin-vue-components/vite';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
@@ -25,6 +26,12 @@ export default defineConfig({
       },
     }),
     vueDevTools(),
+    Components({
+      dirs: ['src/components'],
+      extensions: ['vue'],
+      deep: true,
+      dts: true,
+    }),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -32,15 +39,7 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-      // global imports to register
-      imports: [
-        // presets
-        'vue',
-        'vue-router',
-      ],
-      // Filepath to generate corresponding .d.ts file.
-      // Defaults to './auto-imports.d.ts' when `typescript` is installed locally.
-      // Set `false` to disable.
+      imports: ['vue', 'vue-router'],
       dts: true,
       viteOptimizeDeps: true,
     }),
