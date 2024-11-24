@@ -6,6 +6,8 @@ import { RouterLink } from 'vue-router';
 import { useToast } from '@/components/ui/toast';
 
 
+usePageStore().pageTitle = 'Projects';
+
 const { toast } = useToast();
 
 toast({

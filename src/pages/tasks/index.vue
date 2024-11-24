@@ -4,6 +4,9 @@ import type { Tables } from '@root/database/types/database.types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import { RouterLink } from 'vue-router';
 
+
+usePageStore().pageTitle = 'My Tasks';
+
 const tasks = ref<Tables<'tasks'>[] | null>(null);
 
 const fetchTasks = async () => {
