@@ -18,8 +18,8 @@ toast({
 
 const projects = ref<Tables<'projects'>[] | null>(null);
 
-// this needs to be anonymous function
-(async () => {
+
+const fetchProjects = async () => {
 
   const { data, error } = await supabase.from('projects').select();
 
@@ -27,7 +27,9 @@ const projects = ref<Tables<'projects'>[] | null>(null);
 
   projects.value = data;
 
-})();
+}
+
+await fetchProjects();
 
 const columns: ColumnDef<Tables<'projects'>>[] = [
   {
