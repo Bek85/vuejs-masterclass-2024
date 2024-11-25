@@ -1,9 +1,12 @@
-export const useErrorStore = defineStore('error-store', () => {
-  const error = ref(false);
+import type { CustomError } from '@/types/Error';
 
-  const setError = () => {
-    error.value = true;
+export const useErrorStore = defineStore('error-store', () => {
+  const activeError = ref<null | CustomError>(null);
+
+  const setError = ({ error, customCode }: { error: string; customCode: number }) => {
+    activeError.value = Error(error);
+    activeError.value.customCode = customCode;
   };
 
-  return { error, setError };
+  return { activeError, setError };
 });
