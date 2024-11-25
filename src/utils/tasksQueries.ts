@@ -6,6 +6,7 @@ export interface TaskWithProject extends Tables<'tasks'> {
     id: number;
     name: string;
     slug: string;
+    description: string;
   };
 }
 
