@@ -12,7 +12,7 @@ const fetchTasks = async () => {
 
   if (error) console.log(error)
 
-  tasks.value = data as TasksWithProjects;
+  tasks.value = data;
 }
 
 await fetchTasks();

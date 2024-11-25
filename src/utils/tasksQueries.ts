@@ -1,15 +1,31 @@
 import { supabase } from '@/lib/supabaseClient';
-import type { Tables } from '@root/database/types/database.types';
+import type { QueryData } from '@supabase/supabase-js';
 
-export interface TaskWithProject extends Tables<'tasks'> {
-  projects: {
-    id: number;
-    name: string;
-    slug: string;
-    description: string;
-  };
-}
+export const tasksWithProjectsQuery = supabase.from('tasks').select(`
+  *,
+  projects (
+    id,
+    name,
+    slug
+  )
+`);
 
-export type TasksWithProjects = TaskWithProject[];
+export type TasksWithProjects = QueryData<typeof tasksWithProjectsQuery>;
 
-export const tasksWithProjectsQuery = supabase.from('tasks').select(`*, projects(id, name, slug)`);
+export const taskQuery = (id: string) =>
+  supabase
+    .from('tasks')
+    .select(
+      `
+  *,
+  projects (
+    id,
+    name,
+    slug
+  )
+`,
+    )
+    .eq('id', id)
+    .single();
+
+export type Task = QueryData<ReturnType<typeof taskQuery>>;
