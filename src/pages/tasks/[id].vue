@@ -14,7 +14,7 @@ const fetchTask = async () => {
 
   if (error) console.log(error);
 
-  task.value = data as Task;
+  task.value = data;
 }
 
 await fetchTask();

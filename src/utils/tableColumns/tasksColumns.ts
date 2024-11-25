@@ -1,9 +1,10 @@
 import type { ColumnDef } from '@tanstack/vue-table';
-import type { TaskWithProject } from '../tasksQueries';
+import type { Task } from '../tasksQueries';
+
 import { h } from 'vue';
 import { RouterLink } from 'vue-router';
 
-export const tasksColumns: ColumnDef<TaskWithProject>[] = [
+export const tasksColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'name',
     header: () => h('div', { class: 'text-left' }, 'Name'),
@@ -34,10 +35,10 @@ export const tasksColumns: ColumnDef<TaskWithProject>[] = [
       h(
         RouterLink,
         {
-          to: `/projects/${row.original.projects.slug}`,
+          to: `/projects/${row.original.projects?.slug}`,
           class: 'text-left font-medium',
         },
-        () => row.original.projects.name,
+        () => row.original.projects?.name,
       ),
   },
   {
