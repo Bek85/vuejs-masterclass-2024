@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { supabase } from '@/lib/supabaseClient';
-import type { Tables } from '@root/database/types/database.types';
+
 import type { ColumnDef } from '@tanstack/vue-table';
 import { RouterLink } from 'vue-router';
 import { useToast } from '@/components/ui/toast';
-
+import { projectsQuery, type projects } from '@/utils/projectsQueries';
 
 usePageStore().pageTitle = 'Projects';
 
@@ -18,12 +17,12 @@ toast({
 
 });
 
-const projects = ref<Tables<'projects'>[] | null>(null);
+const projects = ref<projects | null>(null);
 
 
 const fetchProjects = async () => {
 
-  const { data, error } = await supabase.from('projects').select();
+  const { data, error } = await projectsQuery;
 
   if (error) console.log(error);
 
@@ -33,7 +32,7 @@ const fetchProjects = async () => {
 
 await fetchProjects();
 
-const columns: ColumnDef<Tables<'projects'>>[] = [
+const columns: ColumnDef<projects[0]>[] = [
   {
     accessorKey: 'id',
     header: () => h('div', { class: 'text-left' }, 'ID'),
