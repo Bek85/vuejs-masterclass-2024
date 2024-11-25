@@ -1,5 +1,5 @@
 export const usePageStore = defineStore('page-store', () => {
-  const pageTitle = ref('Page Title');
+  const pageTitle = ref('');
 
   return {
     pageTitle,
