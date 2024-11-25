@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { useToast } from '@/components/ui/toast';
-import { projectsQuery, type projects } from '@/utils/projectsQueries';
+import { projectsQuery, type Projects } from '@/utils/projectsQueries';
 import { projectsColumns } from '@/utils/tableColumns/projectsColumns';
 
 usePageStore().pageTitle = 'Projects';
@@ -16,7 +16,7 @@ toast({
 
 });
 
-const projects = ref<projects | null>(null);
+const projects = ref<Projects | null>(null);
 
 
 const fetchProjects = async () => {
