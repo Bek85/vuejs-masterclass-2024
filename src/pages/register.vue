@@ -1,44 +1,26 @@
 <script setup lang="ts">
-import { supabase } from '@/lib/supabaseClient';
+import { register } from '@/utils/authQueries';
+
 
 const formData = ref({
   username: '',
-  first_name: '',
-  last_name: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
-  confirm_password: ''
+  confirmPassword: ''
 })
 
 const router = useRouter();
 
 
-const register = async () => {
-  const { data, error } = await supabase.auth.signUp({
-    email: formData.value.email,
-    password: formData.value.password,
-  })
+const signup = async () => {
 
-  if (error) {
-    useErrorStore().setError({ error: error.message })
+  const isRegistered = await register(formData.value);
+
+  if (isRegistered) {
+    router.push('/');
   }
-
-  if (data.user) {
-    const { error } = await supabase.from('profiles').insert({
-      id: data.user.id,
-      username: formData.value.username,
-      full_name: `${formData.value.first_name} ${formData.value.last_name}`,
-    })
-
-    if (error) {
-      useErrorStore().setError({ error: error.message })
-    }
-
-    router.push('/')
-  }
-
-
-
 
 }
 
@@ -55,7 +37,7 @@ const register = async () => {
           <Button variant="outline" class="w-full"> Register with Google </Button>
           <Separator label="Or" />
         </div>
-        <form class="grid gap-4" @submit.prevent="register">
+        <form class="grid gap-4" @submit.prevent="signup">
           <div class="grid gap-2">
             <Label id="username" class="text-left">Username</Label>
             <Input id="username" type="text" v-model="formData.username" placeholder="johndoe19" required />
@@ -63,11 +45,11 @@ const register = async () => {
           <div class="flex flex-col sm:flex-row justify-between gap-4">
             <div class="grid gap-2">
               <Label id="first_name" class="text-left">First Name</Label>
-              <Input id="first_name" type="text" v-model="formData.first_name" placeholder="John" required />
+              <Input id="first_name" type="text" v-model="formData.firstName" placeholder="John" required />
             </div>
             <div class="grid gap-2">
               <Label id="last_name" class="text-left">Last Name</Label>
-              <Input id="last_name" type="text" v-model="formData.last_name" placeholder="Doe" required />
+              <Input id="last_name" type="text" v-model="formData.lastName" placeholder="Doe" required />
             </div>
           </div>
           <div class="grid gap-2">
@@ -81,7 +63,7 @@ const register = async () => {
           </div>
           <div class="grid gap-2">
             <Label id="confirm_password" class="text-left">Confirm Password</Label>
-            <Input id="confirm_password" type="password" v-model="formData.confirm_password" placeholder="*****"
+            <Input id="confirm_password" type="password" v-model="formData.confirmPassword" placeholder="*****"
               autocomplete required />
           </div>
           <Button type="submit" class="w-full"> Register </Button>
