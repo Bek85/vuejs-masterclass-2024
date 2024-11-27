@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { supabase } from '@/lib/supabaseClient';
 
 const formData = ref({
   username: '',
@@ -9,8 +10,19 @@ const formData = ref({
   confirm_password: ''
 })
 
-const register = () => {
-  console.log(formData.value)
+const register = async () => {
+  const { data, error } = await supabase.auth.signUp({
+    email: formData.value.email,
+    password: formData.value.password,
+  })
+
+  if (error) {
+    useErrorStore().setError({ error: error.message })
+  }
+
+  if (data) {
+    console.log(data);
+  }
 }
 
 </script>
