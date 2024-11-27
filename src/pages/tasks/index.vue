@@ -8,9 +8,9 @@ usePageStore().pageTitle = 'My Tasks';
 const tasks = ref<TasksWithProjects | null>(null);
 
 const fetchTasks = async () => {
-  const { data, error } = await tasksWithProjectsQuery;
+  const { data, error, status } = await tasksWithProjectsQuery;
 
-  if (error) console.log(error)
+  if (error) useErrorStore().setError({ error, customCode: status });
 
   tasks.value = data;
 }
