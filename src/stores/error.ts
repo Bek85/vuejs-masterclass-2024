@@ -21,6 +21,7 @@ export const useErrorStore = defineStore('error-store', () => {
     }
 
     activeError.value = error;
+    // @ts-expect-error it is just a type error
     activeError.value.statusCode = customCode || 500;
   };
 
