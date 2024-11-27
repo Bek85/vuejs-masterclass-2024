@@ -15,9 +15,9 @@ const fetchTasks = async () => {
   tasks.value = data;
 }
 
-await fetchTasks();
+await fetchTasks(hello);
 
-useErrorStore().setError({ error: Error('Uncaught error') });
+
 
 
 </script>
