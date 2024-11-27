@@ -10,6 +10,9 @@ const formData = ref({
   confirm_password: ''
 })
 
+const router = useRouter();
+
+
 const register = async () => {
   const { data, error } = await supabase.auth.signUp({
     email: formData.value.email,
@@ -20,9 +23,23 @@ const register = async () => {
     useErrorStore().setError({ error: error.message })
   }
 
-  if (data) {
-    console.log(data);
+  if (data.user) {
+    const { error } = await supabase.from('profiles').insert({
+      id: data.user.id,
+      username: formData.value.username,
+      full_name: `${formData.value.first_name} ${formData.value.last_name}`,
+    })
+
+    if (error) {
+      useErrorStore().setError({ error: error.message })
+    }
+
+    router.push('/')
   }
+
+
+
+
 }
 
 </script>
