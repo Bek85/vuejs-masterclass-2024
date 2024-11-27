@@ -15,7 +15,7 @@ const fetchTasks = async () => {
   tasks.value = data;
 }
 
-await fetchTasks(hello);
+await fetchTasks();
 
 
 
