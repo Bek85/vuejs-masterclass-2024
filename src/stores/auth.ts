@@ -1,5 +1,4 @@
 import type { User, Session } from '@supabase/supabase-js';
-
 import type { Tables } from '@root/database/types/database.types';
 
 export const useAuthStore = defineStore('auth-store', () => {

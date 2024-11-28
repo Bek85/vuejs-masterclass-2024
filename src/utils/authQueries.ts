@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
-import type { LoginForm, RegisterForm } from '@/types/Authform';
+import type { LoginForm, RegisterForm } from '@/types/AuthForm';
 
 const authStore = useAuthStore();
 
