@@ -25,7 +25,7 @@ export const register = async (formData: RegisterForm) => {
     }
   }
 
-  authStore.setAuth(data.session);
+  await authStore.setAuth(data.session);
 
   return true;
 };
@@ -40,7 +40,11 @@ export const login = async (formData: LoginForm) => {
     return console.error(error);
   }
 
-  authStore.setAuth(data.session);
+  await authStore.setAuth(data.session);
 
   return true;
+};
+
+export const profileQuery = async (id: string) => {
+  return await supabase.from('profiles').select('*').eq('id', id).single();
 };
