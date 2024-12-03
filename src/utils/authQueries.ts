@@ -1,7 +1,8 @@
 import { supabase } from '@/lib/supabaseClient';
 import type { LoginForm, RegisterForm } from '@/types/AuthForm';
 
-const authStore = useAuthStore();
+// Helper function to get store instance
+const getAuthStore = () => useAuthStore();
 
 export const register = async (formData: RegisterForm) => {
   const { data, error } = await supabase.auth.signUp({
@@ -25,8 +26,8 @@ export const register = async (formData: RegisterForm) => {
     }
   }
 
-  await authStore.setAuth(data.session);
-
+  // Get store instance when needed
+  await getAuthStore().setAuth(data.session);
   return true;
 };
 
@@ -40,11 +41,11 @@ export const login = async (formData: LoginForm) => {
     return console.error(error);
   }
 
-  await authStore.setAuth(data.session);
-
+  // Get store instance when needed
+  await getAuthStore().setAuth(data.session);
   return true;
 };
 
-export const profileQuery = async (id: string) => {
-  return await supabase.from('profiles').select('*').eq('id', id).single();
+export const profileQuery = async (userId: string) => {
+  return await supabase.from('profiles').select('*').eq('id', userId).single();
 };

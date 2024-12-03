@@ -6,16 +6,6 @@ export const useAuthStore = defineStore('auth-store', () => {
   const user = ref<null | User>(null);
   const profile = ref<null | Tables<'profiles'>>(null);
 
-  const setAuth = async (userSession: null | Session = null) => {
-    if (!userSession) {
-      user.value = null;
-      return;
-    }
-
-    user.value = userSession.user;
-    await setProfile();
-  };
-
   const setProfile = async () => {
     if (!user.value) {
       profile.value = null;
@@ -26,6 +16,16 @@ export const useAuthStore = defineStore('auth-store', () => {
       const { data, error } = await profileQuery(user.value.id);
       profile.value = data || null;
     }
+  };
+
+  const setAuth = async (userSession: null | Session = null) => {
+    if (!userSession) {
+      user.value = null;
+      return;
+    }
+
+    user.value = userSession.user;
+    await setProfile();
   };
 
   return { user, profile, setAuth };
