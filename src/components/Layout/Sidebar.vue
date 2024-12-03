@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+const router = useRouter();
+
 
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
@@ -16,7 +18,8 @@ const profileLinks = [
 const handleActionClicked = async (title: string) => {
   if (title === 'Sign out') {
     const { logout } = await import('@/utils/authQueries');
-    await logout();
+    const isLoggedOut = await logout();
+    if (isLoggedOut) router.push('/login');
   }
 }
 
