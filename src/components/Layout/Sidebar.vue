@@ -12,6 +12,10 @@ const profileLinks = [
   { title: 'Sign out', icon: 'lucide:log-out' }
 ]
 
+const handleActionClicked = (title: string) => {
+  console.log(title);
+}
+
 </script>
 <template>
   <aside class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 transition-[width]">
@@ -28,7 +32,7 @@ const profileLinks = [
         <SidebarLinks :links="links" />
       </div>
       <div class="border-y text-center bg-background py-3">
-        <SidebarLinks :links="profileLinks" />
+        <SidebarLinks :links="profileLinks" @actionClicked="handleActionClicked" />
       </div>
     </nav>
   </aside>

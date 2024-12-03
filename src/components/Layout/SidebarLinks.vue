@@ -10,6 +10,9 @@ defineProps<{
   links: LinkProp[]
 }>();
 
+const emit = defineEmits<{
+  (e: 'actionClicked', title: string): void
+}>();
 
 </script>
 <template>
@@ -19,7 +22,7 @@ defineProps<{
       <iconify-icon :icon="link.icon"></iconify-icon>
       <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
     </RouterLink>
-    <div v-else class="nav-link cursor-pointer">
+    <div v-else class="nav-link cursor-pointer" @click="emit('actionClicked', link.title)">
       <iconify-icon :icon="link.icon"></iconify-icon>
       <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
     </div>
