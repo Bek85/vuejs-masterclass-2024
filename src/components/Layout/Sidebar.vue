@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
   { title: 'Projects', to: '/projects', icon: 'lucide:building-2' },
@@ -12,8 +13,11 @@ const profileLinks = [
   { title: 'Sign out', icon: 'lucide:log-out' }
 ]
 
-const handleActionClicked = (title: string) => {
-  console.log(title);
+const handleActionClicked = async (title: string) => {
+  if (title === 'Sign out') {
+    const { logout } = await import('@/utils/authQueries');
+    await logout();
+  }
 }
 
 </script>

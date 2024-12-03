@@ -49,3 +49,12 @@ export const login = async (formData: LoginForm) => {
 export const profileQuery = async (userId: string) => {
   return await supabase.from('profiles').select('*').eq('id', userId).single();
 };
+
+export const logout = async () => {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) return console.log(error);
+
+  await getAuthStore().setAuth();
+  return true;
+};

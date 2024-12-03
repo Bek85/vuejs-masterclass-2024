@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
 
     if (!profile.value || profile.value.id !== user.value.id) {
-      const { data, error } = await profileQuery(user.value.id);
+      const { data } = await profileQuery(user.value.id);
       profile.value = data || null;
     }
   };
@@ -22,6 +22,7 @@ export const useAuthStore = defineStore('auth-store', () => {
   const setAuth = async (userSession: null | Session = null) => {
     if (!userSession) {
       user.value = null;
+      profile.value = null;
       return;
     }
 
