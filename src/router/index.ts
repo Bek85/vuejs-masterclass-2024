@@ -6,10 +6,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from) => {
-  const { user } = storeToRefs(useAuthStore());
+router.beforeEach(async (to, from) => {
+  const authStore = useAuthStore();
 
-  if (!user.value && to.path !== '/login' && to.path !== '/register') router.push('/login');
+  await authStore.getSession();
+
+  const isAuthPage = ['/login', '/register'].includes(to.path);
+
+  if (!authStore.user && !isAuthPage) router.push('/login');
+
+  if (authStore.user && isAuthPage) router.push('/');
 });
 
 export default router;
