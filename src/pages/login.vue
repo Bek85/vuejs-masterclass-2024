@@ -11,12 +11,12 @@ const _error = ref('')
 const router = useRouter()
 
 const signin = async () => {
-  const { error } = await login(formData.value);
+  const result = await login(formData.value);
 
-  if (!error) router.push('/');
-
-  _error.value =
-    error.message === 'Invalid login credentials' ? 'Invalid email or password' : error.message;
+  if (!result?.error) router.push('/');
+  else _error.value = result.error.message === 'Invalid login credentials'
+    ? 'Invalid email or password'
+    : result.error.message;
 };
 </script>
 <template>
