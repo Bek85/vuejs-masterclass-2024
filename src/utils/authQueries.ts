@@ -33,10 +33,8 @@ export const login = async (formData: LoginForm) => {
   });
 
   if (error) {
-    return console.error(error);
+    return { error };
   }
-
-  return true;
 };
 
 export const profileQuery = async (userId: string) => {
