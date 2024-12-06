@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { login } from '@/utils/authQueries';
+import { debouncedWatch } from '@vueuse/core';
 
 const { serverError, handleServerError, realtimeErrors, handleLoginForm } = useFormErrors();
 
@@ -9,6 +10,11 @@ const formData = ref({
 })
 
 const router = useRouter()
+
+debouncedWatch(formData, () => handleLoginForm(formData.value), {
+  debounce: 1000,
+  deep: true
+});
 
 const signin = async () => {
   const result = await login(formData.value);
@@ -32,8 +38,8 @@ const signin = async () => {
         <form class="grid gap-4" @submit.prevent="signin">
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>
-            <Input @input="handleLoginForm(formData)" type="email" v-model="formData.email"
-              placeholder="johndoe19@example.com" required :class="{ 'border-red-500': serverError }" />
+            <Input type="email" v-model="formData.email" placeholder="johndoe19@example.com" required
+              :class="{ 'border-red-500': serverError }" />
             <ul v-if="realtimeErrors?.email.length" class="text-sm text-left text-red-500">
               <li v-for="error in realtimeErrors.email" class="list-disc" :key="error">{{ error }}</li>
             </ul>
@@ -43,8 +49,8 @@ const signin = async () => {
               <Label id="password">Password</Label>
               <a href="#" class="inline-block ml-auto text-xs underline"> Forgot your password? </a>
             </div>
-            <Input @input="handleLoginForm(formData)" id="password" type="password" v-model="formData.password"
-              autocomplete required :class="{ 'border-red-500': serverError }" />
+            <Input id="password" type="password" v-model="formData.password" autocomplete required
+              :class="{ 'border-red-500': serverError }" />
             <ul v-if="realtimeErrors?.password.length" class="text-sm text-left text-red-500">
               <li v-for="error in realtimeErrors.password" class="list-disc" :key="error">{{ error }}</li>
             </ul>
