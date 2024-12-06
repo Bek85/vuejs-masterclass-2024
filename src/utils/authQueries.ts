@@ -37,8 +37,8 @@ export const login = async (formData: LoginForm) => {
   }
 };
 
-export const profileQuery = async (userId: string) => {
-  return await supabase.from('profiles').select('*').eq('id', userId).single();
+export const profileQuery = async ({ column, value }: { column: string; value: string }) => {
+  return await supabase.from('profiles').select('*').eq(column, value).single();
 };
 
 export const logout = async () => {
