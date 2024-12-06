@@ -1,41 +1,45 @@
 <script setup lang="ts">
-import {
-  LogOut,
-  User,
-  Search
-} from 'lucide-vue-next';
+import { useDark, useToggle } from '@vueuse/core'
 
+const { profile } = storeToRefs(useAuthStore())
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
 <template>
-  <nav class="h-16 border-b bg-muted/40 flex justify-between items-center px-6">
-    <form class="w-full max-w-96 relative">
-      <iconify-icon icon="lucide:search" class="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      <!-- <Search class="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" /> -->
-      <Input type="text" placeholder="Search..." class="pl-8" />
+  <nav class="h-16 border-b bg-muted/40 flex gap-2 justify-between px-6 items-center">
+    <form class="relative h-fit w-full max-w-96">
+      <iconify-icon class="absolute top-[50%] translate-y-[-50%] left-2.5 text-muted-foreground"
+        icon="lucide:search"></iconify-icon>
+      <Input class="w-full pl-8 bg-background" type="text" placeholder="Search ..." />
     </form>
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar>
-          <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent class="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User class="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LogOut class="mr-2 h-4 w-4" />
-            <span>Log out</span>
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div class="flex justify-center items-center gap-1">
+      <Button @click="toggleDark()" class="w-8 h-8">
+        <Transition name="scale" mode="out-in">
+          <iconify-icon v-if="isDark" icon="lucide:sun"></iconify-icon>
+          <iconify-icon v-else icon="lucide:moon"></iconify-icon>
+        </Transition>
+      </Button>
+      <div class="w-8">
+        <DropdownMenu v-if="profile">
+          <DropdownMenuTrigger>
+            <Avatar>
+              <AvatarImage :src="profile.avatar_url || ''" :alt="`${profile.full_name} profile picture`" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <RouterLink :to="{
+                name: '/users/[username]',
+                params: { username: profile.username }
+              }" class="w-full h-full"> Profile </RouterLink>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
   </nav>
 </template>
