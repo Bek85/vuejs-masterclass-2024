@@ -17,7 +17,7 @@ export const validatePassword = (password: string) => {
 
   const errors = [];
 
-  if (password.length <= 6) errors.push('Password must be at least 6 characters long');
+  if (password.length <= 5) errors.push('Password must be at least 6 characters long');
 
   // if (!password.includes('@')) errors.push('Password must contain an @ symbol');
 

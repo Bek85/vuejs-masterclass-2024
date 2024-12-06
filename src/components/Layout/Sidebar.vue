@@ -1,7 +1,7 @@
 <script setup lang="ts">
-
+f
 const router = useRouter();
-
+const { profile } = storeToRefs(useAuthStore())
 
 const links = [
   { title: 'Dashboard', to: '/', icon: 'lucide:house' },
@@ -9,11 +9,15 @@ const links = [
   { title: 'My Tasks', to: '/tasks', icon: 'lucide:badge-check' }
 ]
 
-const profileLinks = [
-  { title: 'Profile', to: '/profile', icon: 'lucide:user' },
+const profileLinks = computed(() => [
+  {
+    title: 'Profile',
+    to: `/users/${profile.value?.username}`,
+    icon: 'lucide:user'
+  },
   { title: 'Settings', to: '/settings', icon: 'lucide:settings' },
   { title: 'Sign out', icon: 'lucide:log-out' }
-]
+])
 
 const handleActionClicked = async (title: string) => {
   if (title === 'Sign out') {
