@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { login } from '@/utils/authQueries';
 
-const { serverError, handleServerError } = useFormErrors();
+const { serverError, handleServerError, realtimeErrors, handleLoginForm } = useFormErrors();
 
 const formData = ref({
   email: '',
@@ -32,16 +32,22 @@ const signin = async () => {
         <form class="grid gap-4" @submit.prevent="signin">
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>
-            <Input type="email" v-model="formData.email" placeholder="johndoe19@example.com" required
-              :class="{ 'border-red-500': serverError }" />
+            <Input @input="handleLoginForm(formData)" type="email" v-model="formData.email"
+              placeholder="johndoe19@example.com" required :class="{ 'border-red-500': serverError }" />
+            <ul v-if="realtimeErrors?.email.length" class="text-sm text-left text-red-500">
+              <li v-for="error in realtimeErrors.email" class="list-disc" :key="error">{{ error }}</li>
+            </ul>
           </div>
           <div class="grid gap-2">
             <div class="flex items-center">
               <Label id="password">Password</Label>
               <a href="#" class="inline-block ml-auto text-xs underline"> Forgot your password? </a>
             </div>
-            <Input id="password" type="password" v-model="formData.password" autocomplete required
-              :class="{ 'border-red-500': serverError }" />
+            <Input @input="handleLoginForm(formData)" id="password" type="password" v-model="formData.password"
+              autocomplete required :class="{ 'border-red-500': serverError }" />
+            <ul v-if="realtimeErrors?.password.length" class="text-sm text-left text-red-500">
+              <li v-for="error in realtimeErrors.password" class="list-disc" :key="error">{{ error }}</li>
+            </ul>
           </div>
           <ul v-if="serverError" class="text-sm text-left text-red-500">
             <li class="list-disc">{{ serverError }}</li>
