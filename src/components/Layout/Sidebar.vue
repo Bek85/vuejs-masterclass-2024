@@ -1,5 +1,5 @@
 <script setup lang="ts">
-f
+
 const router = useRouter();
 const { profile } = storeToRefs(useAuthStore())
 
