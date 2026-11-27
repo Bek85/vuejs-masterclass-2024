@@ -64,7 +64,8 @@ const createPrimaryTestUser = async () => {
 
   if (data) {
     const userId = data.user.id;
-    await supabase.from('profiles').insert({
+    // The profile row is created by the on_auth_user_created trigger; upsert adds the extras.
+    await supabase.from('profiles').upsert({
       id: userId,
       full_name: firstName + ' ' + lastName,
       username: userName,

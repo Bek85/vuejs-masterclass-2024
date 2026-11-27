@@ -18,10 +18,10 @@ debouncedWatch(formData, () => handleLoginForm(formData.value), {
 });
 
 const signin = async () => {
-  const result = await login(formData.value);
+  const { error } = await login(formData.value);
 
-  if (!result?.error) router.push('/');
-  else handleServerError(result.error);
+  if (!error) router.push('/');
+  else handleServerError(error);
 };
 </script>
 <template>

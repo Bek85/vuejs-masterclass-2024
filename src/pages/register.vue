@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { register } from '@/utils/authQueries';
+import FormErrors from '@/components/ui/form/FormErrors.vue';
+
+const { serverError, handleServerError } = useFormErrors();
 
 
 const formData = ref({
@@ -16,11 +19,10 @@ const router = useRouter();
 
 const signup = async () => {
 
-  const isRegistered = await register(formData.value);
+  const { error } = await register(formData.value);
 
-  if (isRegistered) {
-    router.push('/');
-  }
+  if (!error) router.push('/');
+  else handleServerError(error);
 
 }
 
@@ -66,6 +68,7 @@ const signup = async () => {
             <Input id="confirm_password" type="password" v-model="formData.confirmPassword" placeholder="*****"
               autocomplete required />
           </div>
+          <FormErrors :errors="serverError ? [serverError] : undefined" />
           <Button type="submit" class="w-full"> Register </Button>
           <!-- <Button variant="outline" class="w-full"> Login with Google </Button> -->
         </form>

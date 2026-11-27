@@ -1,40 +1,32 @@
 import { supabase } from '@/lib/supabaseClient';
 import type { LoginForm, RegisterForm } from '@/types/AuthForm';
 
+// Every auth action returns the same shape: `{ error }`, where error is null on success.
+
 export const register = async (formData: RegisterForm) => {
-  const { data, error } = await supabase.auth.signUp({
+  // The profile row is created by the `on_auth_user_created` database trigger,
+  // in the same transaction as the user, from this metadata.
+  const { error } = await supabase.auth.signUp({
     email: formData.email,
     password: formData.password,
+    options: {
+      data: {
+        username: formData.username,
+        full_name: `${formData.firstName} ${formData.lastName}`,
+      },
+    },
   });
 
-  if (error) {
-    return console.error(error);
-  }
-
-  if (data.user) {
-    const { error } = await supabase.from('profiles').insert({
-      id: data.user.id,
-      username: formData.username,
-      full_name: `${formData.firstName} ${formData.lastName}`,
-    });
-
-    if (error) {
-      console.error(error);
-    }
-  }
-
-  return true;
+  return { error };
 };
 
 export const login = async (formData: LoginForm) => {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email: formData.email,
     password: formData.password,
   });
 
-  if (error) {
-    return { error };
-  }
+  return { error };
 };
 
 export const profileQuery = async ({ column, value }: { column: string; value: string }) => {
@@ -44,7 +36,5 @@ export const profileQuery = async ({ column, value }: { column: string; value: s
 export const logout = async () => {
   const { error } = await supabase.auth.signOut();
 
-  if (error) return console.log(error);
-
-  return true;
+  return { error };
 };

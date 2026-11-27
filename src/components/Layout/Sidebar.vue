@@ -22,8 +22,8 @@ const profileLinks = computed(() => [
 const handleActionClicked = async (title: string) => {
   if (title === 'Sign out') {
     const { logout } = await import('@/utils/authQueries');
-    const isLoggedOut = await logout();
-    if (isLoggedOut) router.push('/login');
+    const { error } = await logout();
+    if (!error) router.push('/login');
   }
 }
 
