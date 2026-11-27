@@ -52,3 +52,7 @@ npm run dev
 ```
 
 `npm run supabase:status` prints the local URLs and keys. Use the `*:remote` scripts (`db:reset:remote`, `supabase:types:remote`) to work against the linked cloud project.
+
+Notes:
+- `[analytics]` is disabled in `supabase/config.toml`: on Windows its log collector needs the Docker daemon exposed on `tcp://localhost:2375` and fails to start otherwise.
+- Keep cloud credentials in `.env.cloud.local` (git-ignored) and run `npm run dev -- --mode cloud` to use them. Don't leave them commented out in `.env`: Node 20's `--env-file` does not skip commented lines reliably.
