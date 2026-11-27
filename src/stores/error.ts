@@ -1,33 +1,16 @@
-import type { CustomError, ExtendedPostgrestError } from '@/types/Error';
-import type { PostgrestError } from '@supabase/supabase-js';
+import type { AppError } from '@/types/Error';
+import { toAppError, type ReportableError } from '@/utils/appError';
 
 export const useErrorStore = defineStore('error-store', () => {
-  const activeError = ref<null | CustomError | ExtendedPostgrestError>(null);
-  const isCustomError = ref(false);
+  const activeError = ref<null | AppError>(null);
+  const isCustomError = computed(() => activeError.value?.isCustom ?? false);
 
-  const setError = ({
-    error,
-    customCode,
-  }: {
-    error: string | PostgrestError | Error;
-    customCode?: number;
-  }) => {
-    if (typeof error === 'string') isCustomError.value = true;
-
-    if (typeof error === 'string' || error instanceof Error) {
-      activeError.value = typeof error === 'string' ? Error(error) : error;
-      activeError.value.customCode = customCode || 500;
-      return;
-    }
-
-    activeError.value = error;
-    // @ts-expect-error it is just a type error
-    activeError.value.statusCode = customCode || 500;
+  const setError = ({ error, customCode }: { error: ReportableError; customCode?: number }) => {
+    activeError.value = toAppError(error, customCode);
   };
 
   const clearError = () => {
     activeError.value = null;
-    isCustomError.value = false;
   };
 
   return { activeError, setError, isCustomError, clearError };

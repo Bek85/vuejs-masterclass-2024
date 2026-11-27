@@ -3,39 +3,18 @@ const router = useRouter();
 
 const errorStore = useErrorStore();
 
-const error = ref(errorStore.activeError);
-
-const message = ref('');
-const customCode = ref(0);
-const details = ref('');
-const hint = ref('');
-const statusCode = ref(0);
-const code = ref('');
-
-if (error.value && !('code' in error.value)) {
-  message.value = error.value.message;
-  customCode.value = error.value.customCode ?? 0;
-}
-
-if (error.value && 'code' in error.value) {
-  message.value = error.value.message;
-  statusCode.value = error.value.statusCode ?? 0;
-  details.value = error.value.details ?? '';
-  hint.value = error.value.hint ?? '';
-  code.value = error.value.code ?? '';
-}
-
-const ErrorTemplate = import.meta.env.DEV ? defineAsyncComponent(() => import('./AppErrorDev.vue')) : defineAsyncComponent(() => import('./AppErrorProd.vue'));
+const ErrorTemplate = import.meta.env.DEV
+  ? defineAsyncComponent(() => import('./AppErrorDev.vue'))
+  : defineAsyncComponent(() => import('./AppErrorProd.vue'));
 
 router.afterEach(() => {
   errorStore.clearError();
   usePageStore().pageTitle = '';
 });
-
 </script>
 <template>
   <section class="error">
-    <ErrorTemplate :message :customCode :code :statusCode :hint :details :isCustomError="errorStore.isCustomError" />
+    <ErrorTemplate v-if="errorStore.activeError" :error="errorStore.activeError" />
   </section>
 </template>
 <style scoped>
