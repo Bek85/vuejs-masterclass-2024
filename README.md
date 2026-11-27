@@ -37,3 +37,18 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Local Supabase
+
+The app runs against a local Supabase stack by default. It requires [Docker Desktop](https://docs.docker.com/desktop/).
+
+```sh
+cp .env.example .env     # local URL + default local keys
+npm run supabase:start   # start the local stack (API :54321, DB :54322, Studio :54323, Mailpit/Inbucket :54324)
+npm run db:reset         # apply supabase/migrations to the local DB
+npm run db:seed          # seed fake data
+npm run supabase:types   # regenerate types from the local DB
+npm run dev
+```
+
+`npm run supabase:status` prints the local URLs and keys. Use the `*:remote` scripts (`db:reset:remote`, `supabase:types:remote`) to work against the linked cloud project.
