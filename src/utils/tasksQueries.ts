@@ -25,7 +25,7 @@ export const taskQuery = (id: string) =>
   )
 `,
     )
-    .eq('id', id)
+    .eq('id', Number(id)) // route params are strings; tasks.id is a number
     .single();
 
 export type Task = QueryData<ReturnType<typeof taskQuery>>;

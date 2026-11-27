@@ -1,4 +1,4 @@
-import type { Component, VNode } from 'vue';
+import type { Component, Ref, VNode } from 'vue';
 import type { ToastProps } from '.';
 import { computed, ref } from 'vue';
 
@@ -69,9 +69,10 @@ function addToRemoveQueue(toastId: string) {
   toastTimeouts.set(toastId, timeout);
 }
 
-const state = ref<State>({
+// Typed as Ref<State> so TypeScript doesn't try to deep-unwrap the VNodes inside toasts.
+const state = ref({
   toasts: [],
-});
+}) as Ref<State>;
 
 function dispatch(action: Action) {
   switch (action.type) {

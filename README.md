@@ -17,25 +17,25 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 ## Project Setup
 
 ```sh
-npm install
+pnpm install
 ```
 
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+pnpm dev
 ```
 
 ### Type-Check, Compile and Minify for Production
 
 ```sh
-npm run build
+pnpm build
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+pnpm lint
 ```
 
 ## Local Supabase
@@ -44,15 +44,15 @@ The app runs against a local Supabase stack by default. It requires [Docker Desk
 
 ```sh
 cp .env.example .env     # local URL + default local keys
-npm run supabase:start   # start the local stack (API :54321, DB :54322, Studio :54323, Mailpit/Inbucket :54324)
-npm run db:reset         # apply supabase/migrations to the local DB
-npm run db:seed          # seed fake data
-npm run supabase:types   # regenerate types from the local DB
-npm run dev
+pnpm supabase:start   # start the local stack (API :54321, DB :54322, Studio :54323, Mailpit/Inbucket :54324)
+pnpm db:reset         # apply supabase/migrations to the local DB
+pnpm db:seed          # seed fake data
+pnpm supabase:types   # regenerate types from the local DB
+pnpm dev
 ```
 
-`npm run supabase:status` prints the local URLs and keys. Use the `*:remote` scripts (`db:reset:remote`, `supabase:types:remote`) to work against the linked cloud project.
+`pnpm supabase:status` prints the local URLs and keys. Use the `*:remote` scripts (`db:reset:remote`, `supabase:types:remote`) to work against the linked cloud project.
 
 Notes:
 - `[analytics]` is disabled in `supabase/config.toml`: on Windows its log collector needs the Docker daemon exposed on `tcp://localhost:2375` and fails to start otherwise.
-- Keep cloud credentials in `.env.cloud.local` (git-ignored) and run `npm run dev -- --mode cloud` to use them. Don't leave them commented out in `.env`: Node 20's `--env-file` does not skip commented lines reliably.
+- Keep cloud credentials in `.env.cloud.local` (git-ignored) and run `pnpm dev --mode cloud` to use them. Don't leave them commented out in `.env`: older Node versions (20.x) did not skip commented lines in `--env-file`.
