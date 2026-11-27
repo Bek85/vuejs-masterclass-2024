@@ -44,7 +44,7 @@ The app runs against a local Supabase stack by default. It requires [Docker Desk
 
 ```sh
 cp .env.example .env     # local URL + default local keys
-pnpm supabase:start   # start the local stack (API :54321, DB :54322, Studio :54323, Mailpit/Inbucket :54324)
+pnpm supabase:start   # start the local stack (API :54321, DB :54322, Studio :54323, Mailpit :54324)
 pnpm db:reset         # apply supabase/migrations to the local DB
 pnpm db:seed          # seed fake data
 pnpm supabase:types   # regenerate types from the local DB
@@ -54,5 +54,6 @@ pnpm dev
 `pnpm supabase:status` prints the local URLs and keys. Use the `*:remote` scripts (`db:reset:remote`, `supabase:types:remote`) to work against the linked cloud project.
 
 Notes:
-- `[analytics]` is disabled in `supabase/config.toml`: on Windows its log collector needs the Docker daemon exposed on `tcp://localhost:2375` and fails to start otherwise.
+- `analytics` is disabled in `supabase/config.jsonc`: on Windows its log collector needs the Docker daemon exposed on `tcp://localhost:2375` and fails to start otherwise.
 - Keep cloud credentials in `.env.cloud.local` (git-ignored) and run `pnpm dev --mode cloud` to use them. Don't leave them commented out in `.env`: older Node versions (20.x) did not skip commented lines in `--env-file`.
+- The local database runs Postgres 17, the same version as the linked cloud project (pinned in `supabase/.temp/postgres-version` by `supabase link`). Supabase CLI 3 reads `supabase/config.jsonc`; older CLIs need `config.toml` and won't work with this project.
