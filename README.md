@@ -57,3 +57,18 @@ Notes:
 - `analytics` is disabled in `supabase/config.jsonc`: on Windows its log collector needs the Docker daemon exposed on `tcp://localhost:2375` and fails to start otherwise.
 - Keep cloud credentials in `.env.cloud.local` (git-ignored) and run `pnpm dev --mode cloud` to use them. Don't leave them commented out in `.env`: older Node versions (20.x) did not skip commented lines in `--env-file`.
 - The local database runs Postgres 17, the same version as the linked cloud project (pinned in `supabase/.temp/postgres-version` by `supabase link`). Supabase CLI 3 reads `supabase/config.jsonc`; older CLIs need `config.toml` and won't work with this project.
+
+## Sign in with Google
+
+The Login/Register pages have a Google button (`loginWithGoogle` in `src/utils/authQueries.ts`). The profile trigger derives a username from the Google email (with a short suffix if it is taken) and copies the Google name and photo.
+
+One-time setup in [Google Cloud Console](https://console.cloud.google.com/apis/credentials):
+
+1. **OAuth consent screen**: user type *External*; while the app is in *Testing*, add your Google account under *Test users*.
+2. **Credentials → Create credentials → OAuth client ID → Web application**
+   - Authorized JavaScript origins: `http://localhost:5173`
+   - Authorized redirect URIs: `http://127.0.0.1:54321/auth/v1/callback` (local) and `https://<project-ref>.supabase.co/auth/v1/callback` (cloud)
+3. Copy `supabase/.env.example` to `supabase/.env` and paste the client ID and secret.
+4. Restart Supabase: `pnpm supabase:stop && pnpm supabase:start`.
+
+For the cloud project, enable Google under *Authentication → Providers* in the Supabase dashboard with the same client, and push the migrations.

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { login } from '@/utils/authQueries';
+import { login, loginWithGoogle } from '@/utils/authQueries';
 import { debouncedWatch } from '@vueuse/core';
 import FormErrors from '@/components/ui/form/FormErrors.vue';
 
@@ -17,6 +17,11 @@ debouncedWatch(formData, () => handleLoginForm(formData.value), {
   deep: true
 });
 
+const signinWithGoogle = async () => {
+  const { error } = await loginWithGoogle();
+  if (error) handleServerError(error);
+};
+
 const signin = async () => {
   const { error } = await login(formData.value);
 
@@ -33,7 +38,7 @@ const signin = async () => {
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-4 mb-4 justify-center items-center">
-          <Button variant="outline" class="w-full"> Register with Google </Button>
+          <Button variant="outline" class="w-full" @click="signinWithGoogle"> Login with Google </Button>
           <Separator label="Or" />
         </div>
         <form class="grid gap-4" @submit.prevent="signin">

@@ -29,6 +29,17 @@ export const login = async (formData: LoginForm) => {
   return { error };
 };
 
+// Sends the browser to Google; Supabase brings it back to the app signed in.
+// The profile row is created by the same database trigger as email sign-ups.
+export const loginWithGoogle = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin },
+  });
+
+  return { error };
+};
+
 export const profileQuery = async ({ column, value }: { column: string; value: string }) => {
   return await supabase.from('profiles').select('*').eq(column, value).single();
 };

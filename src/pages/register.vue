@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { register } from '@/utils/authQueries';
+import { loginWithGoogle, register } from '@/utils/authQueries';
 import FormErrors from '@/components/ui/form/FormErrors.vue';
 
 const { serverError, handleServerError } = useFormErrors();
@@ -16,6 +16,11 @@ const formData = ref({
 
 const router = useRouter();
 
+
+const signupWithGoogle = async () => {
+  const { error } = await loginWithGoogle();
+  if (error) handleServerError(error);
+};
 
 const signup = async () => {
 
@@ -36,7 +41,7 @@ const signup = async () => {
       </CardHeader>
       <CardContent>
         <div class="flex flex-col gap-4 mb-4 justify-center items-center">
-          <Button variant="outline" class="w-full"> Register with Google </Button>
+          <Button variant="outline" class="w-full" @click="signupWithGoogle"> Register with Google </Button>
           <Separator label="Or" />
         </div>
         <form class="grid gap-4" @submit.prevent="signup">

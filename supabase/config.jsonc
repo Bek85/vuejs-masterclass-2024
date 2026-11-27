@@ -110,7 +110,7 @@
     // in emails.
     "site_url": "http://localhost:5173",
     // A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-    "additional_redirect_urls": ["http://127.0.0.1:5173", "http://localhost:5173"],
+    "additional_redirect_urls": ["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:5173/**", "http://localhost:5173/**"],
     // How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
     "jwt_expiry": 3600,
     // If disabled, the refresh token will never expire.
@@ -232,6 +232,17 @@
     // `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,
     // `twitter`, `slack`, `spotify`, `workos`, `zoom`.
     "external": {
+      // Sign in with Google. Create an OAuth client at https://console.cloud.google.com/apis/credentials
+      // and put its ID and secret in supabase/.env (git-ignored); see supabase/.env.example.
+      "google": {
+        "enabled": true,
+        "client_id": "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)",
+        "secret": "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)",
+        "redirect_uri": "",
+        "url": "",
+        // Required for local sign in with Google auth.
+        "skip_nonce_check": true
+      },
       "apple": {
         "enabled": false,
         "client_id": "",
