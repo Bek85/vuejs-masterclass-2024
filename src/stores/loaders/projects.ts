@@ -23,10 +23,13 @@ export const useProjectsStore = defineStore('projects-store', () => {
         return;
       }
 
-      // The cache is stale: forget it, so the next visit loads fresh data.
-      // (Lesson 97 will also swap the fresh rows onto the screen right away.)
-      console.log('[projects] cache is stale, cleared for the next visit');
+      // The cache is stale: forget it, so the next visit loads fresh data...
+      console.log('[projects] cache is stale, showing fresh data');
       loadProjects.delete('projects');
+
+      // ...and put the fresh rows on screen now. The page reads `projects` through
+      // storeToRefs, so Vue re-renders the table as soon as this ref changes.
+      if (data) projects.value = data;
     });
   };
 
